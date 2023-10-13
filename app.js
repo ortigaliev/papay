@@ -1,11 +1,8 @@
 console.log('Web serverni boshlash');
 const express = require("express");
 const app = express();//expressning app objectini yuboradi
-const router = require("./router");
+const router = require("./router.js");
 
-//MongoDB connect chaqirish
-const db = require("./server").db();
-const mongodb = require("mongodb");
 
 // 1: Kirish code
 
