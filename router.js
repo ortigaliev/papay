@@ -1,17 +1,16 @@
 
 const express = require('express');
 const router = express.Router();
+const memberController = require("./controllers/memberController")
 
-router.get("/", function (req,res) {
-  res.send("Home sahifadasiz");
-});
 
-router.get("/menu", (req, res) => {
-  res.send("Menu sahifadasiz");
-});
+//memberga oid routerlar
+router.get("/", memberController.home);//home router
 
-router.get("/community", (req, res) => {
-  res.send("JAmiyat sahifadasiz");
-});
+router.post("/signup",memberController.signup);//signup router
+
+router.post("/login", memberController.login);//login router
+
+router.get("/logout", memberController.logout);//logout router
 
 module.exports = router;
