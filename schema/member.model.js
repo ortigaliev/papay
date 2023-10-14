@@ -80,6 +80,8 @@ mb_point: {
   required: false,
   default: 0
   }
+  const userSchema = new Schema({name: String},{
+    timestamps: true});
 
 });
 
