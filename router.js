@@ -5,12 +5,18 @@ const memberController = require("./controllers/memberController")
 
 
 //memberga oid routerlar
-router.get("/", memberController.home);//home router
 
 router.post("/signup",memberController.signup);//signup router
-
 router.post("/login", memberController.login);//login router
-
 router.get("/logout", memberController.logout);//logout router
+
+//boshqa routerlar
+router.get("/menu", (req, res) => {
+  res.send("Menu sahifasidasiz")
+});
+
+router.get("/community", (req, res) => {
+  res.send("Jamiyat sahifasidasiz")
+});
 
 module.exports = router;
