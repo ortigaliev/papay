@@ -1,5 +1,5 @@
-const Member = require("../models/Member");
 let memberController = module.exports;
+const Member = require("../models/Member");
 
 //signup controller
 memberController.signup = async (req, res) => {

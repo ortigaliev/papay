@@ -1,4 +1,5 @@
-const MemberModel = require("../schema/member.model.js");
+const MemberModel = require("../schema/member.model");
+const Definer = require("../lib/mistake")
 
 class Member {
   constructor() {
@@ -8,11 +9,15 @@ class Member {
   async signupData(input) {
     try{
       const new_member = new this.memberModel(input);
-      console.log("I am here");
-
-      const result = await new_member.save();
+      try{
+        const result = await new_member.save();
+      } catch (mongo_err) {
+        console.log(mongo_err);
+        throw new Error(Definer.auth_err1);
+      }
       console.log(result);
 
+      result.mb_password = "";
       return result;
     } catch (err) {
       throw err;

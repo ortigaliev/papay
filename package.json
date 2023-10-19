@@ -12,12 +12,13 @@
   "author": "Max",
   "license": "ISC",
   "dependencies": {
-    "assert": "^2.1.0",
+    "assert": "^2.0.0",
     "bcryptjs": "^2.4.3",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "mongodb": "^3.7.4",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.8",
+    "express": "^4.17.3",
+    "mongodb": "^3.2.6",
     "mongoose": "^6.2.10",
-    "nodemon": "^3.0.1"
+    "nodemon": "^2.0.15"
   }
 }

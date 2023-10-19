@@ -1,9 +1,7 @@
-//.env package
-const dotenv = require("dotenv");
-dotenv.config();
-
 const http = require("http");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+dotenv.config();
 
 
 const connectionString = process.env.MONGO_URL;
