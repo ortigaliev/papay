@@ -2,7 +2,9 @@
 const express = require('express');
 const router = express.Router();
 const memberController = require("./controllers/memberController");
-
+/* **********************
+*        REST API       *   Zamonaviy usulda
+*************************/
 
 //memberga oid routerlar
 
