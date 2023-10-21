@@ -24,7 +24,6 @@ class Member {
       }
       console.log(result);
 
-      result.mb_password = "";
       return result;
     } catch (err) {
       throw err;
