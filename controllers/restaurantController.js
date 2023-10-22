@@ -9,7 +9,7 @@ restaurantController.getMyRestaurantData = async (req, res) =>{
     res.render("restaurant-menu");
   } catch {
     console.log(`ERROR, const/getMyRestaurantData, ${err.message}`);
-    res.json({state: "fail", message: err_message});
+    res.json({state: "fail", message: err.message});
   }
 }
 
@@ -23,7 +23,7 @@ restaurantController.getSignupMyRestaurant = async (req, res) =>{
     console.log(`ERROR, const/getSignupMyRestaurant, ${err.message}`);
     res.json({state: "fail", message: err_message});
   }
-}
+};
 
 restaurantController.signupProcess = async (req, res) => {
   try{
@@ -33,10 +33,10 @@ restaurantController.signupProcess = async (req, res) => {
     new_member = await member.signupData(data);
 
     req.session.member = new_member;
-    res.redirect("resto/products/menu");
+    res.redirect("products/menu");
   } catch (err) {
     console.log(`ERROR, const/signup, ${err.message}`);
-    res.json({state: "fail", message: err_message});
+    res.json({state: "fail", message: err.message});
   }
 };
 
@@ -47,7 +47,7 @@ restaurantController.getLoginMyRestaurant = async (req, res) =>{
     res.render("login-page");
   } catch (err) {
     console.log(`ERROR, const/getLogInMyRestaurant, ${err.message}`);
-    res.json({state: "fail", message: err_message});
+    res.json({state: "fail", message: err.message});
   }
 }
 
@@ -63,10 +63,9 @@ restaurantController.loginProcess = async (req, res) => {
       res.redirect("/resto/products/menu");
     });
 
-
   } catch (err) {
     console.log(`ERROR, const/login, ${err.message}`);
-    res.json({state: "fail", message: err_message});
+    res.json({state: "fail", message: err.message});
   }
 };
 
@@ -74,6 +73,17 @@ restaurantController.loginProcess = async (req, res) => {
 restaurantController.logout = (req, res) => {
   console.log("GET contr.logout");
   res.send("logout sahifasidasiz");
+};
+
+restaurantController.validateAuthRestaurant = (req, res, next) => {
+  if (req.session?.member?.mb_type === "RESTAURANT") {
+    req.member = req.session.member;
+    next();
+  } else
+    res.json({
+      state: "fail",
+      message: "only authenticated members with restaurant type",
+    });
 };
 
 //check-me controller
