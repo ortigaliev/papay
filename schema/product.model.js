@@ -21,14 +21,14 @@ productSchema = new mongoose.Schema({
     type: String,
     required: false,
     default: "PAUSED",
-    enums: {
+    enum: {
       values: product_status_enums,
-      message: "{VALUE} is not among permitted enum values",
+      message: "{VALUE} is not among permitted enum values}",
     },
   },
   product_price: {
     type: Number,
-    required: true
+    required: true,
   },
   product_discount: {
     type: Number,
@@ -49,18 +49,18 @@ productSchema = new mongoose.Schema({
     enum: {
       values: product_size_enums,
       message: "{VALUE}, is not among permitted enum values",
-    },
+    }
   },
   product_volume: {
     type: String,
     default: 1,
     required: function () {
-     return (this.product_collection === "drink")
+      return (this.product_collection === "drink")
     },
     enum: {
       values: product_volume_enums,
       message: "{VALUE}, is not among permitted enum values",
-    },
+    }
   },
   product_description: {
     type: String,
@@ -82,14 +82,16 @@ productSchema = new mongoose.Schema({
     default: 0
   },
   restaurant_mb_id: {
-    type:Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Member",
-    required: false
+    required: false,
   }
 },
-  {timestamps: true});
-product_Schema.index(
+{timestamps: true}
+);
+
+productSchema.index(
   {restaurant_mb_id: 1, product_name: 1, product_size: 1, product_volume: 1},
   {unique: true});
 
-  module.export = mongoose.model("Product", productSchema);
+  module.exports = mongoose.model("Product", productSchema);
