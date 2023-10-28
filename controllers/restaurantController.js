@@ -3,6 +3,17 @@ const Product = require("../models/Product");
 
 let restaurantController = module.exports;
 
+restaurantController.home = (req, res) => {
+  try{
+    console.log("GET: cont/home");
+    res.render("home-page");
+  } catch (err) {
+    console.log(`ERROR, cont/home, ${err.message}`);
+    res.json({state: "fail", message: err.message});
+  }
+};
+
+
 restaurantController.getMyRestaurantProducts = async (req, res) =>{
   try{
     console.log("GET: cont/getMyRestaurantProducts");
@@ -82,10 +93,10 @@ restaurantController.validateAuthRestaurant = (req, res, next) => {
     req.member = req.session.member;
     next();
   } else
-    res.json({
-      state: "fail",
-      message: "only authenticated members with restaurant type",
-    });
+  res.json({
+    state: "fail",
+    message: "only authenticated members with restaurant type",
+  });
 };
 
 //check-me controller

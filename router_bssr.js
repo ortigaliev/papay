@@ -10,11 +10,13 @@ const uploader_product = require("./utils/upload-multer")("products");
 *        BSSR EJS       *   An'anaviy usulda
 *************************/
 
+router_bssr.get("/", restaurantController.home);
+
 //Restaurantga oid routerlar
 
 router_bssr
-  .get("/signup",restaurantController.getSignupMyRestaurant)//signup router
-  .post("/signup",restaurantController.signupProcess);//signup router
+  .get("/sign-up",restaurantController.getSignupMyRestaurant)//signup router
+  .post("/sign-up",restaurantController.signupProcess);//signup router
 
 router_bssr
   .get("/login", restaurantController.getLoginMyRestaurant)//login router
