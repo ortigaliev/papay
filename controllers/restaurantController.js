@@ -1,5 +1,6 @@
 const Member = require("../models/Member");
 const Product = require("../models/Product");
+const assert = require("assert");
 
 let restaurantController = module.exports;
 
@@ -43,7 +44,7 @@ restaurantController.signupProcess = async (req, res) => {
     console.log("POST: cont/signupProcess");
     assert(req.file, Definer.general_err3);
 
-    let new_member = req.body,
+    let new_member = req.body;
     new_member.mb_type = "RESTAURANT";
     new_member.mb_image = req.file.path;
 
