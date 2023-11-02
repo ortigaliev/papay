@@ -1,5 +1,6 @@
 const Member = require("../models/Member");
 const Product = require("../models/Product");
+const Definer = require("../lib/mistake");
 const assert = require("assert");
 
 let restaurantController = module.exports;
@@ -48,12 +49,12 @@ restaurantController.signupProcess = async (req, res) => {
     new_member.mb_type = "RESTAURANT";
     new_member.mb_image = req.file.path;
 
-    const member = new Memeber();
+    const member = new Member();
     const result = await member.signupData(new_member);
     assert(result, Definer.general_err1);
 
     req.session.member = new_member;
-    res.redirect("products/menu");
+    res.redirect("/resto/products/menu");
   } catch (err) {
     console.log(`ERROR, const/signupProcess, ${err.message}`);
     res.json({state: "fail", message: err.message});
