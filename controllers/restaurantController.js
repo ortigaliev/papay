@@ -41,9 +41,15 @@ restaurantController.getSignupMyRestaurant = async (req, res) =>{
 restaurantController.signupProcess = async (req, res) => {
   try{
     console.log("POST: cont/signupProcess");
-    const data = req.body,
-    member = new Member(),
-    new_member = await member.signupData(data);
+    assert(req.file, Definer.general_err3);
+
+    let new_member = req.body,
+    new_member.mb_type = "RESTAURANT";
+    new_member.mb_image = req.file.path;
+
+    const member = new Memeber();
+    const result = await member.signupData(new_member);
+    assert(result, Definer.general_err1);
 
     req.session.member = new_member;
     res.redirect("products/menu");

@@ -4,6 +4,7 @@ const router_bssr = express.Router();
 const restaurantController = require("./controllers/restaurantController");
 const productController = require("./controllers/productController");
 const uploader_product = require("./utils/upload-multer")("products");
+const uploader_member = require("./utils/upload-multer")("member");
 
 
 /* **********************
@@ -15,8 +16,8 @@ router_bssr.get("/", restaurantController.home);
 //Restaurantga oid routerlar
 
 router_bssr
-  .get("/sign-up",restaurantController.getSignupMyRestaurant)//signup router
-  .post("/sign-up",restaurantController.signupProcess);//signup router
+  .get("/sign-up", restaurantController.getSignupMyRestaurant)//signup router
+  .post("/sign-up",uploader_member.single("restaurant_img"), restaurantController.signupProcess);//signup router
 
 router_bssr
   .get("/login", restaurantController.getLoginMyRestaurant)//login router
