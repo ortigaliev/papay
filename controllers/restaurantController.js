@@ -23,8 +23,8 @@ restaurantController.getMyRestaurantProducts = async (req, res) =>{
     const data = await product.getAllProductsDataResto(res.locals.member);
     res.render("restaurant-menu", { restaurant_data: data});
   } catch (err) {
-    console.log(`ERROR, const/getMyRestaurantData, ${err.message}`);
-    res.json({state: "fail", message: err.message});
+    console.log(`ERROR, cont/getMyRestaurantProducts, ${err.message}`);
+    res.redirect("/resto");
   }
 }
 
@@ -87,33 +87,41 @@ restaurantController.loginProcess = async (req, res) => {
     });
 
   } catch (err) {
-    console.log(`ERROR, const/loginProcess, ${err.message}`);
+    console.log(`ERROR, cont/loginProcess, ${err.message}`);
     res.json({state: "fail", message: err.message});
   }
 };
 
 //loguot controller
 restaurantController.logout = (req, res) => {
-  console.log("GET contr.logout");
-  res.send("logout sahifasidasiz");
-};
+  try {
+    console.log("GET cont/logout");
+    req.session.destroy (function () {
+      res.redirect("/resto");
+    });
+    } catch (err) {
+      console.log(`ERROR, cont/logout, ${err.message}`);
+      res.json({ state: "fail", message: err.message});
+    }
 
-restaurantController.validateAuthRestaurant = (req, res, next) => {
-  if (req.session?.member?.mb_type === "RESTAURANT") {
-    req.member = req.session.member;
-    next();
-  } else
-  res.json({
-    state: "fail",
-    message: "only authenticated members with restaurant type",
-  });
-};
+  };
 
-//check-me controller
-restaurantController.checkSession = (req, res) => {
-  if (req.session?.member){
-    res.json({ state: "success", data: req.session.member });
-  } else {
-    res.json({ state: "fail", message: "You are not authenticated"});
-  }
-};
+  restaurantController.validateAuthRestaurant = (req, res, next) => {
+    if (req.session?.member?.mb_type === "RESTAURANT") {
+      req.member = req.session.member;
+      next();
+    } else
+    res.json({
+      state: "fail",
+      message: "only authenticated members with restaurant type",
+    });
+  };
+
+  //check-me controller
+  restaurantController.checkSession = (req, res) => {
+    if (req.session?.member){
+      res.json({ state: "success", data: req.session.member });
+    } else {
+      res.json({ state: "fail", message: "You are not authenticated"});
+    }
+  };
