@@ -24,9 +24,10 @@ restaurantController.getMyRestaurantProducts = async (req, res) =>{
     res.render("restaurant-menu", { restaurant_data: data});
   } catch (err) {
     console.log(`ERROR, cont/getMyRestaurantProducts, ${err.message}`);
-    res.redirect("/resto");
+    console.log(`Error, cont/getMyRestaurantProducts, ${err.message}`);
+    res.json({state: "fail", message: error.message});
   }
-}
+};
 
 
 
@@ -66,8 +67,9 @@ restaurantController.getLoginMyRestaurant = async (req, res) =>{
   try{
     console.log("GET: cont/getLoginMyRestaurant");
     res.render("login-page");
+
   } catch (err) {
-    console.log(`ERROR, const/getLogInMyRestaurant, ${err.message}`);
+    console.log(`ERROR, const/getLoginMyRestaurant, ${err.message}`);
     res.json({state: "fail", message: err.message});
   }
 }
@@ -84,6 +86,7 @@ restaurantController.loginProcess = async (req, res) => {
       result.mb_type === "ADMIN"
       ? res.redirect("/resto/all-restaurant")
       : res.redirect("/resto/products/menu");
+
     });
 
   } catch (err) {
