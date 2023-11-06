@@ -24,7 +24,7 @@ restaurantController.getMyRestaurantProducts = async (req, res) => {
     const data = await product.getAllProductsDataResto(res.locals.member);
     res.render("restaurant-menu", { restaurant_data: data }); //  It renders (koʻrsatuvchi) a view called "restaurant-menu".
   } catch (error) {
-    console.log(`Error, controller/getMyRestaurantProducts, ${error.message}`);
+    console.log(`Error, cont/getMyRestaurantProducts, ${error.message}`);
     res.redirect("/resto");
   }
 };
@@ -37,7 +37,7 @@ restaurantController.getSignupMyRestaurant = async (req, res) =>{
     res.render("signup");
   } catch (err) {
     console.log(`ERROR, const/getSignupMyRestaurant, ${err.message}`);
-    res.json({state: "fail", message: err_message});
+    res.json({state: "fail", message: err.message});
   }
 };
 
@@ -52,9 +52,9 @@ restaurantController.signupProcess = async (req, res) => {
 
     const member = new Member();
     const result = await member.signupData(new_member);
-    assert(result, Definer.general_err1);
+    assert(req.file, Definer.general_err1);
 
-    req.session.member = new_member;
+    req.session.member = result;
     res.redirect("/resto/products/menu");
   } catch (err) {
     console.log(`ERROR, const/signupProcess, ${err.message}`);
@@ -84,7 +84,7 @@ restaurantController.loginProcess = async (req, res) => {
     req.session.member = result;
     req.session.save(function () {
       result.mb_type === "ADMIN"
-      ? res.redirect("/resto/all-restaurant")
+      ? res.redirect("/resto/all-restaurants")
       : res.redirect("/resto/products/menu");
 
     });
@@ -126,5 +126,31 @@ restaurantController.logout = (req, res) => {
       res.json({ state: "success", data: req.session.member });
     } else {
       res.json({ state: "fail", message: "You are not authenticated"});
+    }
+  };
+
+  restaurantController.validateAdmin = (req, res, next) => {
+    if (req.session?.member?.mb_type === "ADMIN") {
+      req.member = req.session.member;
+      next();
+    } else {
+      const html = `<script>
+        alert('Admin page: Permission denied');
+        window.location.replace('/resto');
+      </script>`;
+      res.end(html);
+    }
+  };
+
+  restaurantController.getAllRestaurants = async (req, res) => {
+    try {
+      console.log("GET cont/getAllRestaurants");
+
+      // todo: retrieve all restaurants from DB
+
+      res.render("all-restaurants");
+    } catch (err) {
+      console.log(`ERROR, cont/getAllRestaurants, ${err.message}`);
+      res.json({ state: "fail", message: err.message });
     }
   };

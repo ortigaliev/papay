@@ -26,14 +26,20 @@ router_bssr
 router_bssr.get("/logout", restaurantController.logout);//logout router
 
 router_bssr.get("/check-me", restaurantController.checkSession);//
-
 router_bssr.get("/products/menu", restaurantController.getMyRestaurantProducts);
+
 router_bssr.post("/products/create",
   restaurantController.validateAuthRestaurant,
   uploader_product.array("product_images", 5),
   productController.addNewProduct
 );
 router_bssr.post("/products/edit/:id", restaurantController.validateAuthRestaurant, productController.updateChosenProduct);
+
+router_bssr.get(
+  "/all-restaurants",
+  restaurantController.validateAdmin,
+  restaurantController.getAllRestaurants
+);
 
 
 
