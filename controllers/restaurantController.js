@@ -16,16 +16,16 @@ restaurantController.home = (req, res) => {
 };
 
 
-restaurantController.getMyRestaurantProducts = async (req, res) =>{
-  try{
-    console.log("GET: cont/getMyRestaurantProducts");
+restaurantController.getMyRestaurantProducts = async (req, res) => {
+  try {
+    console.log("GET: controller/getMyRestaurantProducts");
+    // TODO: Get my restaurant products
     const product = new Product();
     const data = await product.getAllProductsDataResto(res.locals.member);
-    res.render("restaurant-menu", { restaurant_data: data});
-  } catch (err) {
-    console.log(`ERROR, cont/getMyRestaurantProducts, ${err.message}`);
-    console.log(`Error, cont/getMyRestaurantProducts, ${err.message}`);
-    res.json({state: "fail", message: error.message});
+    res.render("restaurant-menu", { restaurant_data: data }); //  It renders (koʻrsatuvchi) a view called "restaurant-menu".
+  } catch (error) {
+    console.log(`Error, controller/getMyRestaurantProducts, ${error.message}`);
+    res.redirect("/resto");
   }
 };
 

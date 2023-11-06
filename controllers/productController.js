@@ -28,7 +28,7 @@ productController.addNewProduct = async (req, res) =>{
     const result = await product.addNewProductData(data, req.member);
     assert.ok(result, Definer.product_err1);
     const html = `<script>
-                    alert(new product added successfully);
+                    alert('new product added successfully');
                     window.location.replace("/resto/products/menu");
                   <script>`;
     res.end(html);
