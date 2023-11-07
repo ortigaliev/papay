@@ -102,55 +102,56 @@ restaurantController.logout = (req, res) => {
     req.session.destroy (function () {
       res.redirect("/resto");
     });
-    } catch (err) {
-      console.log(`ERROR, cont/logout, ${err.message}`);
-      res.json({ state: "fail", message: err.message});
-    }
+  } catch (err) {
+    console.log(`ERROR, cont/logout, ${err.message}`);
+    res.json({ state: "fail", message: err.message});
+  }
 
-  };
+};
 
-  restaurantController.validateAuthRestaurant = (req, res, next) => {
-    if (req.session?.member?.mb_type === "RESTAURANT") {
-      req.member = req.session.member;
-      next();
-    } else
-    res.json({
-      state: "fail",
-      message: "only authenticated members with restaurant type",
-    });
-  };
+restaurantController.validateAuthRestaurant = (req, res, next) => {
+  if (req.session?.member?.mb_type === "RESTAURANT") {
+    req.member = req.session.member;
+    next();
+  } else
+  res.json({
+    state: "fail",
+    message: "only authenticated members with restaurant type",
+  });
+};
 
-  //check-me controller
-  restaurantController.checkSession = (req, res) => {
-    if (req.session?.member){
-      res.json({ state: "success", data: req.session.member });
-    } else {
-      res.json({ state: "fail", message: "You are not authenticated"});
-    }
-  };
+//check-me controller
+restaurantController.checkSession = (req, res) => {
+  if (req.session?.member){
+    res.json({ state: "success", data: req.session.member });
+  } else {
+    res.json({ state: "fail", message: "You are not authenticated"});
+  }
+};
 
-  restaurantController.validateAdmin = (req, res, next) => {
-    if (req.session?.member?.mb_type === "ADMIN") {
-      req.member = req.session.member;
-      next();
-    } else {
-      const html = `<script>
-        alert('Admin page: Permission denied');
-        window.location.replace('/resto');
-      </script>`;
-      res.end(html);
-    }
-  };
+restaurantController.validateAdmin = (req, res, next) => {
+  if (req.session?.member?.mb_type === "ADMIN") {
+    req.member = req.session.member;
+    next();
+  } else {
+    const html = `<script>
+    alert('Admin page: Permission denied');
+    window.location.replace('/resto');
+    </script>`;
+    res.end(html);
+  }
+};
 
-  restaurantController.getAllRestaurants = async (req, res) => {
-    try {
-      console.log("GET cont/getAllRestaurants");
+restaurantController.getAllRestaurants = async (req, res) => {
+  try {
+    console.log("GET cont/getAllRestaurants");
 
-      // todo: retrieve all restaurants from DB
+    /* const restaurant = new Restaurant();
+    const restaurants_data = await restaurant.getAllRestaurantsData(); */
 
-      res.render("all-restaurants");
-    } catch (err) {
-      console.log(`ERROR, cont/getAllRestaurants, ${err.message}`);
-      res.json({ state: "fail", message: err.message });
-    }
-  };
+    res.render("all-restaurants",/*  {restaurants_data: restaurants_data} */);
+  } catch (err) {
+    console.log(`ERROR, cont/getAllRestaurants, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
