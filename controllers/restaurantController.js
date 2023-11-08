@@ -45,7 +45,7 @@ restaurantController.getSignupMyRestaurant = async (req, res) =>{
 restaurantController.signupProcess = async (req, res) => {
   try{
     console.log("POST: cont/signupProcess");
-    assert(req.file, Definer.general_err3);
+    assert.ok(req.file, Definer.general_err3);
 
     let new_member = req.body;
     new_member.mb_type = "RESTAURANT";
@@ -53,7 +53,7 @@ restaurantController.signupProcess = async (req, res) => {
 
     const member = new Member();
     const result = await member.signupData(new_member);
-    assert(req.file, Definer.general_err1);
+    assert.ok(req.file, Definer.general_err1);
 
     req.session.member = result;
     res.redirect("/resto/products/menu");
@@ -147,11 +147,11 @@ restaurantController.getAllRestaurants = async (req, res) => {
   try {
     console.log("GET cont/getAllRestaurants");
 
+
     const restaurant = new Restaurant();
     const restaurants_data = await restaurant.getAllRestaurantsData();
-    console.log("BIz mashettamiz", restaurants_data);
-    console.log("restaurants_data:", restaurants_data);
     res.render("all-restaurants", {restaurants_data: restaurants_data});
+
   } catch (err) {
     console.log(`ERROR, cont/getAllRestaurants, ${err.message}`);
     res.json({ state: "fail", message: err.message });

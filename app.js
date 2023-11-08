@@ -27,7 +27,7 @@ app.use(
     },
     store: store,
     resave: true,
-    saveUnInitialized: true,
+    saveUninitialized: true,
   })
 );
 
