@@ -9,7 +9,12 @@ class Restaurant {
 
   async getAllRestaurantsData() {
     try {
+      const result =  await this.memberModel.find({
+        mb_type: 'RESTAURANT',
 
+      }).exec();
+      assert(result, Definer.general_err1);
+      return result;
     } catch (err) {
       throw err;
     }
