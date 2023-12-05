@@ -12,6 +12,7 @@ router.post("/signup",memberController.signup);//signup router
 router.post("/login", memberController.login);//login router
 router.get("/logout", memberController.logout);//logout router
 router.get("/check-me", memberController.checkMyAuthentication);//checkMyAuthentication router
+router.get("/member/:id", memberController.retrieveAuthMember, memberController.getChosenMember);
 
 //boshqa routerlar
 router.get("/menu", (req, res) => {
