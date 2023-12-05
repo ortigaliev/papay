@@ -107,9 +107,9 @@ memberController.getChosenMember = async (req, res) => {
     console.log(`ERROR, cont/getChosenMember, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
- };
+};
 
- memberController.retrieveAuthMember = (req, res, next) => {
+  memberController.retrieveAuthMember = (req, res, next) => {
   try {
     const token = req.cookies["access_token"];
     req.member = token ? jwt.verify(token, process.env.SECRET_TOKEN) : null;
@@ -121,4 +121,4 @@ memberController.getChosenMember = async (req, res) => {
     next();
 
   }
- };
+};
