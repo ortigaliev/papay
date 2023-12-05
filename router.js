@@ -11,6 +11,7 @@ const memberController = require("./controllers/memberController");
 router.post("/signup",memberController.signup);//signup router
 router.post("/login", memberController.login);//login router
 router.get("/logout", memberController.logout);//logout router
+router.get("/check-me", memberController.checkMyAuthentication);//checkMyAuthentication router
 
 //boshqa routerlar
 router.get("/menu", (req, res) => {
