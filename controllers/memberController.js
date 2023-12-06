@@ -2,6 +2,7 @@ const assert = require('assert');
 const Member = require("../models/Member");
 const jwt = require("jsonwebtoken");
 const Definer = require("../lib/mistake");
+const View = require("../models/View")
 
 
 
@@ -38,7 +39,7 @@ memberController.login = async (req, res) => {
     result = await member.loginData(data);
 
     const token = memberController.createToken(result);
-    console.log("Token:", token);
+
     res.cookie("access_token", token, {
       maxAge: 6 * 3600 * 1000,
       httpOnly: true,
@@ -66,6 +67,7 @@ memberController.createToken = (result) => {
       mb_nick: result.mb_nick,
       mb_type: result.mb_type,
     };
+
     const token = jwt.sign(upload_data, process.env.SECRET_TOKEN, {
       expiresIn: "6h",
     });
@@ -75,7 +77,7 @@ memberController.createToken = (result) => {
   } catch (err) {
     throw err;
   }
-};
+}
 
 memberController.checkMyAuthentication = (req, res) => {
   try {
@@ -91,13 +93,12 @@ memberController.checkMyAuthentication = (req, res) => {
   } catch (err) {
     throw err;
   }
-};
+}
 
 memberController.getChosenMember = async (req, res) => {
   try {
     console.log("GET cont/getChosenMember");
     const id = req.params.id;
-
 
     const member = new Member();
     const result = await member.getChosenMemberData(req.member, id);
@@ -109,16 +110,15 @@ memberController.getChosenMember = async (req, res) => {
   }
 };
 
-  memberController.retrieveAuthMember = (req, res, next) => {
+memberController.retrieveAuthMember = (req, res, next) => {
   try {
     const token = req.cookies["access_token"];
     req.member = token ? jwt.verify(token, process.env.SECRET_TOKEN) : null;
     next();
 
-
-  } catch(err) {
-    console.log(`ERROR, cont/retrieveAuthMember, ${err.message}`);
-    next();
+  }catch(err) {
+  console.log(`ERROR, cont/retrieveAuthMember, ${err.message}`);
+  next();
 
   }
 };

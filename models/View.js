@@ -17,16 +17,16 @@ class View {
 
         switch(group_type) {
             case 'member':
-            result = await this.memberModel.findById({
+            result = await this.memberModel.findOne({
                 _id: view_ref_id,
                 mb_status: "ACTIVE",
         }).exec();
         break;
         case "product":
           result = await this.productModel
-            .findById({
+            .findOne({
               _id: view_ref_id,
-              product_status: "PROCESS",
+              mb_status: "PROCESS",
             })
             .exec();
           break;
@@ -95,7 +95,7 @@ class View {
   }
 
 
-  async checkViewExistence(View_ref_id) {
+  async checkViewExistence(view_ref_id) {
     try {
       const view = await this.viewModel
         .findOne({
@@ -109,3 +109,5 @@ class View {
     }
   }
 }
+
+module.exports = View;

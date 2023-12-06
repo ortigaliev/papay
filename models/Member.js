@@ -58,14 +58,15 @@ class Member {
   }
 
   async getChosenMemberData(member, id) {
+    console.log("Mana:::",);
     try {
       id = shapeIntoMongooseObjectId(id);
 
       console.log("Member:::", member);
       if(member) {
-        //conition if not sen before
         await this.viewChosenItemByMember(member, id, "member");
       }
+
       const result = await this.memberModel
       .aggregate([
         {
@@ -88,13 +89,13 @@ class Member {
     try{
         view_ref_id = shapeIntoMongooseObjectId(view_ref_id);
         const mb_id = shapeIntoMongooseObjectId(member._id);
+
         const view = new View(mb_id);
         //valitation needed
         const isValid = await view.validateChosenTarget(view_ref_id, group_type);
         assert.ok( isValid, Definer.general_err2);
 
         //logged user hass seen target before
-        //
         const doesExist = await view.checkViewExistence(view_ref_id);
         console.log("doesExist:", doesExist);
 
