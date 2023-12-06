@@ -74,7 +74,7 @@ class View {
         .exec();
         break;
 
-        /* case "product":
+          case "product":
           await this.productModel
             .findByIdAndUpdate(
               {
@@ -84,7 +84,6 @@ class View {
             )
             .exec();
           break;
-        } */
         }
         return true;
 

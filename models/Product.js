@@ -4,6 +4,7 @@ const assert = require("assert");
 const { shapeIntoMongooseObjectId } = require("../lib/config");
 const Definer =  require("../lib/mistake");
 const  ProductModel =require("../schema/product.model");
+const Member = require("./Member");
 
 
 class Product {
@@ -44,6 +45,31 @@ class Product {
       throw err;
     }
   }
+
+  async getChosenProductData(member, id) {
+    try {
+      const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
+      id = shapeIntoMongooseObjectId(id);
+
+      if(member) {
+        const member_obj = new Member();
+        await member_obj.viewChosenItemByMember(member, id, "product")
+      }
+
+      const result = await this.productModel
+        .aggregate([{ $match: { _id: id, product_status: "PROCESS" } },
+      //todo:check auth member product likes
+      ])
+        .exec();
+
+      assert.ok(result, Definer.general_err1);
+      return result
+    } catch (err) {
+      throw err;
+    }
+  }
+
+
 
     async getAllProductsDataResto(member) {
       try{
