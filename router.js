@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const memberController = require("./controllers/memberController");
 const productController = require("./controllers/productController");
+const restaurantController = require("./controllers/restaurantController");
 /* **********************
 *        REST API       *   Zamonaviy usulda
 *************************/
@@ -20,5 +21,17 @@ router.get("/member/:id", memberController.retrieveAuthMember, memberController.
 router.post("/products", memberController.retrieveAuthMember, productController.getAllProducts);
 
 router.get("/products/:id", memberController.retrieveAuthMember, productController.getChosenProduct);
+
+//Restaurant related
+router.get(
+  "/restaurants",
+  memberController.retrieveAuthMember,
+  restaurantController.getRestaurants
+);
+router.get(
+  "/restaurants/:id",
+  memberController.retrieveAuthMember,
+  restaurantController.getChosenRestaurant
+);
 
 module.exports = router;
