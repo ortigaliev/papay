@@ -6,7 +6,6 @@ const Definer =  require("../lib/mistake");
 const  ProductModel =require("../schema/product.model");
 const Member = require("./Member");
 
-
 class Product {
   constructor() {
     this.productModel = ProductModel;
@@ -57,13 +56,14 @@ class Product {
       }
 
       const result = await this.productModel
-        .aggregate([{ $match: { _id: id, product_status: "PROCESS" } },
+        .aggregate([
+          { $match: { _id: id, product_status: "PROCESS" } },
       //todo:check auth member product likes
       ])
         .exec();
 
       assert.ok(result, Definer.general_err1);
-      return result
+      return result[0];
     } catch (err) {
       throw err;
     }
@@ -78,7 +78,7 @@ class Product {
           restaurant_mb_id: member._id,
         });
         assert.ok(result, Definer.general_err1);
-        console.log("Result", result)
+        //console.log("Result", result)
         return result;
       }catch (err) {
         throw err;
@@ -107,7 +107,8 @@ class Product {
       id = shapeIntoMongooseObjectId(id);
       mb_id = shapeIntoMongooseObjectId(mb_id);
 
-      const result = await this.productModel.findOneAndUpdate(
+      const result = await this.productModel
+      .findOneAndUpdate(
         {_id: id,restaurant_mb_id: mb_id},
         updated_data,
         {

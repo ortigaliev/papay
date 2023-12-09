@@ -6,7 +6,7 @@ let productController = module.exports;
 
 productController.getAllProducts = async (req, res) => {
   try {
-    console.log("POST: cont/getAllProducts");
+    console.log("POST: cont/getAllProduct");
     const product = new Product();
     const result = await product.getAllProductsData(req.member, req.body);
     res.json({ state: "success", data: result });
@@ -19,12 +19,13 @@ productController.getAllProducts = async (req, res) => {
 
 productController.getChosenProduct = async (req, res) => {
   try {
-    console.log("POST: cont/getAllProducts");
-    const product = new Product();
-    const result = await product.getChosenProductData(req.member, req.body);
+    console.log("POST: cont/ChosenProduct");
+    const product = new Product(),
+      id = req.params.id,
+      result = await product.getChosenProductData(req.member, id);
     res.json({ state: "success", data: result });
   } catch (err) {
-    console.log(`ERROR, cont/getAllProducts, ${err.message}`)
+    console.log(`ERROR, cont/getChosenProduct, ${err.message}`)
     res.json({state: 'fail', message: err.message})
 
   }

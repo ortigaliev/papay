@@ -1,26 +1,28 @@
 const MemberModel = require("../schema/member.model");
 const ViewModel = require("../schema/view.model");
 const ProductModel = require("../schema/product.model");
+//const { group } = require("mongobd/lib/operations/collection_ops");
 
 
 class View {
   constructor(mb_id) {
     this.viewModel = ViewModel;
-    this.mb_id = mb_id;
     this.memberModel = MemberModel;
     this.productModel = ProductModel;
+    this.mb_id = mb_id;
   }
 
   async validateChosenTarget(view_ref_id, group_type) {
     try {
         let result;
-
         switch(group_type) {
             case 'member':
-            result = await this.memberModel.findOne({
+            result = await this.memberModel
+            .findOne({
                 _id: view_ref_id,
                 mb_status: "ACTIVE",
-        }).exec();
+        })
+        .exec();
         break;
         case "product":
           result = await this.productModel
@@ -31,25 +33,23 @@ class View {
             .exec();
           break;
         }
-        return !!result;
-
-
+      return !!result;
     } catch(err) {
-        throw err;
+      throw err;
     }
   }
-
+//+
   async insertMemberView(view_ref_id, group_type ) {
     try {
         const new_view = new this.viewModel({
             mb_id: this.mb_id,
             view_ref_id: view_ref_id,
-            view_group: group_type
+            view_group: group_type,
         });
 
         const result = await new_view.save();
 
-        //target itemsview sonini kupaytirish kerak bittaga
+        //target items view sonini kupaytirish kerak bittaga
         await this.modifyItemViewCounts(view_ref_id, group_type );
 
         return result;
@@ -59,9 +59,9 @@ class View {
 
   }
 
+  //+
   async modifyItemViewCounts(view_ref_id, group_type ) {
     try {
-
         switch (group_type) {
             case "member":
             await this.memberModel
@@ -73,7 +73,6 @@ class View {
         )
         .exec();
         break;
-
           case "product":
           await this.productModel
             .findByIdAndUpdate(
@@ -93,7 +92,7 @@ class View {
 
   }
 
-
+//+
   async checkViewExistence(view_ref_id) {
     try {
       const view = await this.viewModel

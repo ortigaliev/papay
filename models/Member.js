@@ -12,11 +12,9 @@ class Member {
 
   async signupData(input) {
     try{
-
       const salt = await bcrypt.genSalt();
       input.mb_password = await bcrypt.hash(input.mb_password, salt);
       const new_member = new this.memberModel(input);
-
       let result;
       try{
         result = await new_member.save();
@@ -24,7 +22,8 @@ class Member {
         console.log(mongo_err);
         throw new Error(Definer.auth_err1);
       }
-      console.log(result);
+      //console.log(result);
+      result.mb_password = "";
 
       return result;
     } catch (err) {
@@ -58,11 +57,10 @@ class Member {
   }
 
   async getChosenMemberData(member, id) {
-    console.log("Mana:::",);
     try {
       id = shapeIntoMongooseObjectId(id);
-
       console.log("Member:::", member);
+
       if(member) {
         await this.viewChosenItemByMember(member, id, "member");
       }
@@ -70,16 +68,15 @@ class Member {
       const result = await this.memberModel
       .aggregate([
         {
-          $match: { _id: id, mb_status: "ACTIVE" },
+          $match: { _id: id, mb_status: "ACTIVE" }
         },
         { $unset: "mb_password" },
-        //todo: check auth member liked the chosen member
+        //todo: check if auth member liked the chosen member
       ])
       .exec();
 
       assert.ok(result, Definer.general_err2);
       return result[0];
-
     } catch(err) {
       throw err;
     }
