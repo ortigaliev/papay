@@ -1,22 +1,18 @@
 const Order = require("../models/Order.js");
-// function is an asynchronous route handler in a Node.js application for creating an order.
-
-let orderController = module.exports;
 const assert = require("assert");
 const Definer = require("../lib/mistake");
 
+let orderController = module.exports;
+
 orderController.createOrder = async (req, res) => {
-  // It is designed to create a new order.
   try {
     console.log("POST: cont/createOrder");
     assert.ok(req.member, Definer.auth_err5);
-    // It first asserts that the req.member exists, using the assert.ok method with a custom error message
 
     const order = new Order();
     const result = await order.createOrderData(req.member, req.body);
-    // If the assertion passes, it creates a new Order instance and calls createOrderData with req.member and req.body as arguments to create an order.
 
-    res.json({ state: "success", data: result }); // The result is then sent back in a JSON response.
+    res.json({ state: "success", data: result });
   } catch (err) {
     console.log(`ERROR, cont/createOrder, ${err.message}`);
     res.json({ state: "fail", message: err.message });
@@ -25,7 +21,7 @@ orderController.createOrder = async (req, res) => {
 
 orderController.getMyOrders = async (req, res) => {
   try {
-    console.log("POST: cont/getMyOrders");
+    console.log("GET: cont/getMyOrders");
     assert.ok(req.member, Definer.auth_err5);
 
     const order = new Order();
@@ -33,6 +29,20 @@ orderController.getMyOrders = async (req, res) => {
     res.json({ state: "success", data: result });
   } catch (err) {
     console.log(`ERROR, cont/getMyOrders, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+orderController.editChosenOrder = async (req, res) => {
+  try {
+    console.log("POST: cont/editChosenOrder");
+    assert.ok(req.member, Definer.auth_err5);
+
+    const order = new Order();
+    const result = await order.editChosenOrderData(req.member, req.body);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/editChosenOrder, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };
