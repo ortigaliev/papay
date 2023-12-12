@@ -3,7 +3,6 @@ const { shapeIntoMongooseObjectId } = require("../lib/config");
 const Definer = require("../lib/mistake");
 const OrderModel = require("../schema/order.model");
 const OrderItemModel = require("../schema/order_item.model");
-// The Order class in this code is designed to manage order data in a Node.js application, interfacing with MongoDB through Mongoose models.
 
 class Order {
   constructor() {
@@ -12,7 +11,6 @@ class Order {
   }
 
   async createOrderData(member, data) {
-    //  This method calculates the total amount of an order by iterating over each item in the data array, summing up the products of quantities and prices. It adds a delivery cost if the total amount is below a certain threshold, then saves the order data using saveOrderData method and logs the generated order ID.
     try {
       let order_total_amount = 0,
           delivery_cost = 0;
