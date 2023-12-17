@@ -147,7 +147,7 @@ class Follow {
 
             //following follow back to subscriber
             if(member && member._id === inquiry.mb_id) {
-              aggregateQuery.push(lookup_auth_member_following(follow_id));
+              aggregateQuery.push(lookup_auth_member_following(follow_id, "follows"));
             }
 
 
