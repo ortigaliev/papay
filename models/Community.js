@@ -53,6 +53,7 @@ class Community {
                 },
                 { $unwind: "$member_data"},
                 //todo: check auth member  liked the chosen target
+                lookup_auth_member_liked(auth_mb_id),
             ])
             .exec();
             assert.ok(result, Definer.article_err2);
@@ -92,6 +93,7 @@ class Community {
                 },
                 { $unwind: "$member_data"},
                 //todo: check auth member  liked the chosen target
+                lookup_auth_member_liked(auth_mb_id),
             ])
             .exec();
 

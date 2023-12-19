@@ -101,5 +101,9 @@ router.get("/follow/followers", memberController.retrieveAuthMember,
 followController.getMemberFollowers
 );
 
+router.post("/member-liken", memberController.retrieveAuthMember,
+memberController.likeMemberChosen
+);
+
 
 module.exports = router;
